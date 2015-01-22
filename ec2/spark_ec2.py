@@ -353,6 +353,10 @@ def launch_cluster(conn, opts, cluster_name):
         print >> stderr, "ERROR: Must provide a key pair name (-k) to use on instances."
         sys.exit(1)
 
+    if oct(os.stat(opts.identity_file).st_mode) != 600:
+        print >> stderr, "ERROR: Must set the permissions for the private key file to 600."
+        sys.exit(1)
+
     user_data_content = None
     if opts.user_data:
         with open(opts.user_data) as user_data_file:
